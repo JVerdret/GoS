@@ -1,5 +1,5 @@
 if GetObjectName(GetMyHero()) ~= "Janna" then return end
-
+require 'OpenPredict'
 if FileExist(COMMON_PATH.."MixLib.lua") then
 	require('MixLib')
 else
@@ -17,6 +17,7 @@ local erange = 800
 local rrange = 875 
 local rrange = 725
 local mode = nil
+local jaq = {delay = 0.1, speed = 625, width = 100, range = qrange1}
 
 menu = Menu("Janna Lee", "Janna Lee")
 menu:SubMenu("c", "Combo")
@@ -28,7 +29,20 @@ OnTick(function()
 	if not IsDead(myHero) then
 		mode = Mix:Mode()
 		local unit = GetCurrentTarget()
+		if mode == "Combo" then 
+			nsph(unit)
+		end
 	end
 end)
+
+function nsph(unit)
+	local qr = Ready(_Q)
+	if menu.c.cqu:Value() and qr and ValidTarget(unit, qrange1) then 
+		local qpred = GetPrediction(unit, jaq)
+		if qpred and qpred.hitChance >= 0.9 then
+			CastSkillShot(_Q, qpred.castPos)
+		end
+	end
+end
 
 PrintChat("Janna Lee loaded")
