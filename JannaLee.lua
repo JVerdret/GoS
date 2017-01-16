@@ -31,17 +31,23 @@ OnTick(function()
 		local unit = GetCurrentTarget()
 		if mode == "Combo" then 
 			nsph(unit)
+			ntb(unit)
 		end
 	end
 end)
 
 function nsph(unit)
-	local qr = Ready(_Q)
-	if menu.c.cqu:Value() and qr and ValidTarget(unit, qrange1) then 
+	if menu.c.cqu:Value() and Ready(_Q) and ValidTarget(unit, qrange1) then 
 		local qpred = GetPrediction(unit, jaq)
 		if qpred and qpred.hitChance >= 0.9 then
 			CastSkillShot(_Q, qpred.castPos)
 		end
+	end
+end
+
+function ntb(unit)
+	if menu.c.cwu:Value() and Ready(_W) and ValidTarget(unit, wrange) then 
+		CastTargetSpell(unit, _W)
 	end
 end
 
