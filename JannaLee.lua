@@ -18,6 +18,8 @@ local rrange = 875
 local rrange = 725
 local mode = nil
 local jaq = {delay = 0.1, speed = 625, width = 100, range = qrange1}
+local move = {delay = 0.5, speed = math.huge, width = 50, range = math.huge}
+local autolevel = {[1] = {_Q, _W, _E, _W, _W, _R, _W, _E, _W, _E, _R, _E, _E, _Q, _Q, _Q, _Q, _R}}
 
 menu = Menu("Janna Lee", "Janna Lee")
 menu:SubMenu("c", "Combo")
@@ -26,6 +28,7 @@ menu.c:Boolean("cwu", "Use W ?", true)
 menu.c:Boolean("ceu", "Use E ?", true)
 menu.c:Boolean("cru", "Use R ?", true)
 menu:SubMenu("s", "Shield")
+--menu.s:Boolean("sj" "Shield Janna", true)
 menu.s:Slider("shp", "Ally's HP Percentage", 50, 0, 100, 1)
 menu.s:Boolean("sot", "Shield when targetted", true)
 menu.s:Boolean("se", "Emergency Shield", true)
@@ -34,10 +37,10 @@ OnTick(function()
 	if not IsDead(myHero) then
 		mode = Mix:Mode()
 		local unit = GetCurrentTarget()
+		als()
 		if mode == "Combo" then 
 			nsph(unit)
 			ntb(unit)
-			fpu(unit)
 		end
 	end
 end)
@@ -57,7 +60,11 @@ function ntb(unit)
 	end
 end
 
-function fpu(unit)
+function als()
+	if menu.al:Value() and GetLevelPoints(myHero) >= 1 then
+		LevelSpell(autolevel[1][GetLevel(myHero) - GetLevelPoints(myHero) + 1])
+	end
+end
 
 
 PrintChat("Janna Lee loaded")
