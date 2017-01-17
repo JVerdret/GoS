@@ -10,7 +10,7 @@ DownloadFileAsync("https://raw.githubusercontent.com/VTNEETS/NEET-Scripts/master
 end
 local version = 1
 local qrange1 = 850
-local qrange2 = 1743
+local qrange2 = 1730
 local qrange3 = 120
 local wrange = 600
 local erange = 800
@@ -52,7 +52,7 @@ OnTick(function()
 end)
 
 function nsph(unit)
-	if menu.c.cqu:Value() and Ready(_Q) and ValidTarget(unit, qrange1) then 
+	if menu.c.cqu:Value() and Ready(_Q) and ValidTarget(unit, qrange2) then 
 		local qpred = GetPrediction(unit, jaq)
 		if qpred and qpred.hitChance >= 0.9 then
 			CastSkillShot(_Q, qpred.castPos)
