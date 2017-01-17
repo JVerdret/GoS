@@ -25,6 +25,11 @@ menu.c:Boolean("cqu", "Use Q ?", true)
 menu.c:Boolean("cwu", "Use W ?", true)
 menu.c:Boolean("ceu", "Use E ?", true)
 menu.c:Boolean("cru", "Use R ?", true)
+menu:SubMenu("s", "Shield")
+menu.s:Slider("shp", "Ally's HP Percentage", 50, 0, 100, 1)
+menu.s:Boolean("sot", "Shield when targetted", true)
+menu.s:Boolean("se", "Emergency Shield", true)
+menu:Boolean("al", "Use Auto Level spell", true)
 OnTick(function()
 	if not IsDead(myHero) then
 		mode = Mix:Mode()
@@ -32,6 +37,7 @@ OnTick(function()
 		if mode == "Combo" then 
 			nsph(unit)
 			ntb(unit)
+			fpu(unit)
 		end
 	end
 end)
@@ -50,5 +56,8 @@ function ntb(unit)
 		CastTargetSpell(unit, _W)
 	end
 end
+
+function fpu(unit)
+
 
 PrintChat("Janna Lee loaded")
