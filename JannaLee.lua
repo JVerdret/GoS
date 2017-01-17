@@ -45,6 +45,9 @@ OnTick(function()
 			ntb(unit)
 		end
 		shi()
+		if menu.s.se:Value() then
+			eshi()
+		end
 	end
 end)
 
@@ -82,4 +85,9 @@ DelayAction(function()
 end, GetWindUp(myHero))
 end
 
+function eshi()
+	if GetPercentHP(myHero) < 8 then
+		myHero:Cast(_E, myHero)
+	end
+end
 PrintChat("Janna Lee loaded")
