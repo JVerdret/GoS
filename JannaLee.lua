@@ -28,7 +28,9 @@ menu.c:Boolean("cwu", "Use W ?", true)
 menu.c:Boolean("ceu", "Use E ?", true)
 menu.c:Boolean("cru", "Use R ?", true)
 menu:SubMenu("s", "Shield")
---menu.s:Boolean("sj" "Shield Janna", true)
+menu.s:Boolean("shj", "Shield Janna", true)
+menu.s:Slider("sjhp", "Janna's HP Percentage", 50, 0, 100, 1)
+menu.s:Boolean("sha", "Shield Allies", true)
 menu.s:Slider("shp", "Ally's HP Percentage", 50, 0, 100, 1)
 menu.s:Boolean("sot", "Shield when targetted", true)
 menu.s:Boolean("se", "Emergency Shield", true)
@@ -42,6 +44,7 @@ OnTick(function()
 			nsph(unit)
 			ntb(unit)
 		end
+		shi()
 	end
 end)
 
@@ -66,5 +69,17 @@ function als()
 	end
 end
 
+function shi()
+DelayAction(function()
+	for _, ally in pairs(GetAllyHeroes()) do
+		if Ready(_E) and GetDistance(myHero, ally) <= 800 and GetPercentHP(ally) <= menu.s.shp:Value() and menu.s.sha:Value() then
+			ally:Cast(_E, ally)
+		end
+	end
+	if Ready(_E) and GetPercentHP(myHero) <= menu.s.sjhp:Value() and menu.s.shj:Value() then
+		myHero:Cast(_E, myHero)
+	end
+end, GetWindUp(myHero))
+end
 
 PrintChat("Janna Lee loaded")
