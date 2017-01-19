@@ -54,6 +54,8 @@ OnTick(function()
 		if mode == "Combo" then 
 			nsph(unit)
 			ntb(unit)
+			if menu.r.ru:Value() and Ready(_R) then 
+				Rlogic()
 		end
 		shi()
 		if menu.s.se:Value() then
@@ -104,11 +106,11 @@ end
 function Rlogic(unit)
 DelayAction(function()
 	for _, ally in pairs(GetAllyHeroes()) do
-		if Ready(_R) and GetDistance(myHero, ally) <= rrange and GetPercentHP(ally) <= menu.r.ruah:Value() and menu.r.rua:Value() and ValidTarget(unit, 2500) then
+		if GetDistance(myHero, ally) <= rrange and GetPercentHP(ally) <= menu.r.ruah:Value() and menu.r.rua:Value() and ValidTarget(unit, 2500) then
 			CastSpell(_R)
 		end
 	end
-	if Ready(_R) and GetPercentHP(myHero) <= menu.r.rujh:Value() and menu.r.ruj:Value() and ValidTarget(unit, 2500) then
+	if GetPercentHP(myHero) <= menu.r.rujh:Value() and menu.r.ruj:Value() and ValidTarget(unit, 2500) then
 		CastSpell(_R)
 	end
 end, GetWindUp(myHero))
