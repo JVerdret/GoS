@@ -40,11 +40,13 @@ menu.r:Slider("rujh", "Janna's HP Percentage", 50, 0, 100, 1)
 menu.r:Boolean("rua", "Use R for ally ?", true)
 menu.r:Slider("ruah", "Ally's HP Percentage", 50, 0, 100, 1)
 menu.r:SubMenu("rd", "drive away enemy settings")
-menu.r.rd:Boolean("rdh", "Drive away for HP", false)
+menu.r.rd:Boolean("rdh", "Drive away for HP difference", false)
+menu.r.rd:Boolean("rdnd", "Drive away for Number difference", false)
 menu.r.rd:Boolean("rdn", "Drive away for Number", false)
 menu.r.rd:Boolean("rdas", "Advanced Drive Away System", true)
 menu.r.rd:Slider("rdhp", "HP difference", 50, 0, 100, 1)
-menu.r.rd:Slider("rdnd", "Number difference", 2, 0, 4, 1)
+menu.r.rd:Slider("rdndd", "Number difference", 2, 0, 4, 1)
+menu.r.rd:Slider("rdns", "Number for R", 2 , 0 , 5, 1)
 menu:Boolean("al", "Use Auto Level spell", true)
 OnTick(function()
 	if not IsDead(myHero) then
@@ -106,8 +108,31 @@ function eshi()
 end  
 function Rlogic(unit)
 DelayAction(function()
+	local anum = 1
+	for _, allies in pairs(GetAllyHeroes()) do
+		if GetDistance(myHero, allies) <= rrange then
+			anum = anum + 1
+		end
+	end
+	local enum = 0
+	local enemytotalhp = 0
 	for _, ally in pairs(GetAllyHeroes()) do
-		if GetDistance(myHero, ally) <= rrange and GetPercentHP(ally) <= menu.r.ruah:Value() and menu.r.rua:Value() and ValidTarget(unit, 2500) --[[or (menu.r.rd.rdh:Value() and GetPercentHP(ally) <= (menu.r.rd.rdhp:Value() / 100) * )]] then
+		if GetDistance(myHero, ally) <= rrange and GetPercentHP(ally) <= menu.r.ruah:Value() and menu.r.rua:Value() and ValidTarget(unit, 2500) then
+			CastSpell(_R)
+		end
+		for _, enemy in pairs(GetEnemyHeroes()) do 
+			if GetDistance(myHero, enemy) <= rrange then 
+				enum = enum + 1
+				enemytotalhp = enemytotalhp + GetCurrentHP(enemy)
+			end
+		end
+		if menu.r.rd.rdn:Value() and enum >= menu.r.rd.rdns:Value() then 
+			CastSpell(_R)
+		end
+		if menu.r.rd.rdh:Value() and GetCurrentHP(ally) <= (enemytotalhp * (menu.r.rd.rdhp:Value() / 100)) then
+			CastSpell(_R)
+		end
+		if menu.r.rd.rdnd:Value() and enum - anum >= menu.r.rd.rdndd:Value() then
 			CastSpell(_R)
 		end
 	end
