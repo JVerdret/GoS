@@ -56,6 +56,7 @@ OnTick(function()
 			ntb(unit)
 			if menu.r.ru:Value() and Ready(_R) then 
 				Rlogic()
+			end
 		end
 		shi()
 		if menu.s.se:Value() then
@@ -109,7 +110,6 @@ DelayAction(function()
 		if GetDistance(myHero, ally) <= rrange and GetPercentHP(ally) <= menu.r.ruah:Value() and menu.r.rua:Value() and ValidTarget(unit, 2500) --[[or (menu.r.rd.rdh:Value() and GetPercentHP(ally) <= (menu.r.rd.rdhp:Value() / 100) * )]] then
 			CastSpell(_R)
 		end
-		if 
 	end
 	if GetPercentHP(myHero) <= menu.r.rujh:Value() and menu.r.ruj:Value() and ValidTarget(unit, 2500) then
 		CastSpell(_R)
