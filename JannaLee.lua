@@ -19,7 +19,7 @@ local rrange = 725
 local mode = nil
 local jaq = {delay = 0.1, speed = 625, width = 100, range = qrange1}
 local move = {delay = 0.5, speed = math.huge, width = 50, range = math.huge}
-local autolevel = {[1] = {_Q, _W, _E, _W, _W, _R, _W, _E, _W, _E, _R, _E, _E, _Q, _Q, _Q, _Q, _R}}
+local autolevel = {[1] = {_Q, _W, _E, _W, _W, _R, _W, _E, _W, _E, _R, _E, _E, _Q, _Q, _Q, _R, _Q}}
 
 menu = Menu("Janna Lee", "Janna Lee")
 menu:SubMenu("c", "Combo")
@@ -100,5 +100,17 @@ function eshi()
 	if GetPercentHP(myHero) < 8 then
 		myHero:Cast(_E, myHero)
 	end
+end  
+function Rlogic(unit)
+DelayAction(function()
+	for _, ally in pairs(GetAllyHeroes()) do
+		if Ready(_R) and GetDistance(myHero, ally) <= rrange and GetPercentHP(ally) <= menu.r.ruah:Value() and menu.r.rua:Value() and ValidTarget(unit, 2500) then
+			CastSpell(_R)
+		end
+	end
+	if Ready(_R) and GetPercentHP(myHero) <= menu.r.rujh:Value() and menu.r.ruj:Value() and ValidTarget(unit, 2500) then
+		CastSpell(_R)
+	end
+end, GetWindUp(myHero))
 end
 PrintChat("Janna Lee loaded")
