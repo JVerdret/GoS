@@ -39,7 +39,7 @@ menu.r:Boolean("ruj", "Use R for Janna ?", true)
 menu.r:Slider("rujh", "Janna's HP Percentage", 50, 0, 100, 1)
 menu.r:Boolean("rua", "Use R for ally ?", true)
 menu.r:Slider("ruah", "Ally's HP Percentage", 50, 0, 100, 1)
-menu.r:SubMenu("rd", "Use R for drive away enemy settings")
+menu.r:SubMenu("rd", "drive away enemy settings")
 menu.r.rd:Boolean("rdh", "Drive away for HP", false)
 menu.r.rd:Boolean("rdn", "Drive away for Number", false)
 menu.r.rd:Boolean("rdas", "Advanced Drive Away System", true)
@@ -106,9 +106,10 @@ end
 function Rlogic(unit)
 DelayAction(function()
 	for _, ally in pairs(GetAllyHeroes()) do
-		if GetDistance(myHero, ally) <= rrange and GetPercentHP(ally) <= menu.r.ruah:Value() and menu.r.rua:Value() and ValidTarget(unit, 2500) then
+		if GetDistance(myHero, ally) <= rrange and GetPercentHP(ally) <= menu.r.ruah:Value() and menu.r.rua:Value() and ValidTarget(unit, 2500) --[[or (menu.r.rd.rdh:Value() and GetPercentHP(ally) <= (menu.r.rd.rdhp:Value() / 100) * )]] then
 			CastSpell(_R)
 		end
+		if 
 	end
 	if GetPercentHP(myHero) <= menu.r.rujh:Value() and menu.r.ruj:Value() and ValidTarget(unit, 2500) then
 		CastSpell(_R)
